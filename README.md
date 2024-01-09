@@ -79,7 +79,15 @@ This repository contains Python files that depend on Protocol Buffers. Follow th
      ```
    - Replace `your_proto_file.proto` with the path to your `.proto` file.
 
-7. **Run the Python Files**:
+
+7. **Set up your API key**:
+   - Set your API key in the terminal using:
+     ```
+     setx GTFS_API_KEY "Your-API-Key-Here"
+     ```
+   - Replace `Your-API-Key-Here` with your BODS API key.
+
+8. **Run the Python Files**:
    - Execute the Python scripts using:
      ```
      python filename.py
