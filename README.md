@@ -25,6 +25,10 @@ For Vehicle Positions data.
 
 Listing the fields which are present across the positions supplied.
 
+**GTFS_API_Request.py:**
+
+For one off queries to the BODS GTFS API, storing the response in a readable .txt file.
+
 # How to Run the Files
 
 This repository contains Python files that depend on Protocol Buffers. Follow these steps to set up and run the files:
