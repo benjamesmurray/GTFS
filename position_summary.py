@@ -24,7 +24,7 @@ def count_vehicle_positions(vehicle_positions):
 
 # Load and parse the GTFS Real-Time data
 feed = gtfs_realtime_pb2.FeedMessage()
-with open('gtfsrt.bin', 'rb') as f:
+with open('gtfs_files/gtfsrt.bin', 'rb') as f:
     feed.ParseFromString(f.read())
 
 # Extract vehicle positions

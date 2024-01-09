@@ -16,7 +16,7 @@ def analyze_vehicle_positions(vehicle_positions):
                     break
 
             # Check field presence and count unique values (if applicable)
-            if field_obj is not None:
+            if field_obj is not None and not (isinstance(field_obj, str) and field_obj == ""):
                 summary[field]["present"] += 1
                 if field not in exclude_unique_count and isinstance(field_obj, int):  # For enumerated types
                     enum_value = field_obj
@@ -47,7 +47,7 @@ exclude_unique_count = ['current_stop_sequence', 'timestamp']
 
 # Load and parse GTFS Real-Time data
 feed = gtfs_realtime_pb2.FeedMessage()
-with open('gtfsrt.bin', 'rb') as f:
+with open('gtfs_files/gtfsrt.bin', 'rb') as f:
     feed.ParseFromString(f.read())
 
 # Extract vehicle positions and analyze

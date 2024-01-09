@@ -1,6 +1,29 @@
 # GTFS
-Tools for interacting with the BODS GTFS feed. 
+Tools for interacting with the BODS GTFS and GTFS RT data. 
 
+**entity_counts_top3.py:** 
+
+How many of each type of GTFS RT data is present:
+
+Trip updates - delays, cancellations, changed routes
+
+Service alerts - stop moved, unforeseen events affecting a station, route or the entire network
+
+Vehicle positions - information about the vehicles including location and congestion level
+
+Supplying three examples of each one.
+
+**field_analysis.py:**
+
+For Vehicle Positions data.
+
+What types of values are present in the enumerated fields, and how many of the positions supply a value for each type of field.
+
+**fields_used.py**
+
+For Vehicle Positions data.
+
+Listing the fields which are present across the positions supplied.
 
 # How to Run the Files
 
@@ -16,9 +39,8 @@ This repository contains Python files that depend on Protocol Buffers. Follow th
 
 1. **Clone the Repository**:
    ```
-   git clone [URL of the repository]
+   git clone https://github.com/benjamesmurray/GTFS
    ```
-   Replace `[URL of the repository]` with the URL of this GitHub repository.
 
 2. **Navigate to the Repository Directory**:
    ```
@@ -27,7 +49,7 @@ This repository contains Python files that depend on Protocol Buffers. Follow th
    Replace `[Name of the repository]` with the directory name of the cloned repository.
 
 3. **Install Required Python Packages** (if applicable):
-   If there's a `requirements.txt` file, install the required Python packages:
+   Install the required Python packages:
    ```
    pip install -r requirements.txt
    ```
