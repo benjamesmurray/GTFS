@@ -13,17 +13,24 @@ Vehicle positions - information about the vehicles including location and conges
 
 Supplying three examples of each one.
 
-**field_analysis.py:**
+**field_analysis_api_BODS.py:**
 
-For Vehicle Positions data.
+For Vehicle Positions data accessed via the BODS GTFS API.
 
-What types of values are present in the enumerated fields, and how many of the positions supply a value for each type of field.
+Listing the fields which are present across the positions supplied. Then analysing what types of values are present in the enumerated fields, and how many of the positions supply a value for each type of field.
 
-**fields_used.py**
 
-For Vehicle Positions data.
+**field_analysis_api_NSW.py:**
 
-Listing the fields which are present across the positions supplied.
+For Vehicle Positions data accessed via the NSW GTFS API.
+
+Listing the fields which are present across the positions supplied. Then analysing what types of values are present in the enumerated fields, and how many of the positions supply a value for each type of field.
+
+**field_analysis_bin.py:**
+
+For Vehicle Positions data accessed via a supplied GTFS bin file.
+
+Listing the fields which are present across the positions supplied. Then analysing what types of values are present in the enumerated fields, and how many of the positions supply a value for each type of field.
 
 **GTFS_API_Request.py:**
 
