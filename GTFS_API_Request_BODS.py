@@ -13,11 +13,11 @@ api_key = os.environ.get('GTFS_API_KEY')
 if not api_key:
     raise ValueError("API key not found. Set the GTFS_API_KEY environment variable.")
 
-# API Request
-url = "https://data.bus-data.dft.gov.uk/api/v1/gtfsrtdatafeed/"
-params = {
-    'startTimeAfter': get_unix_timestamp_one_hour_ago(),
-    'api_key': api_key
+# API Request to Transport for New South Wales
+url = "https://api.transport.nsw.gov.au/v1/gtfs/vehiclepos/buses"
+headers = {
+    'Authorization': 'apikey YOUR_API_KEY',  # Replace YOUR_API_KEY with your actual API key
+    'Cookie': 'AWSALB=...'  # The full Cookie content as needed
 }
 
 response = requests.get(url, params=params)
