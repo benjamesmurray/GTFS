@@ -32,9 +32,18 @@ For Vehicle Positions data accessed via a supplied GTFS bin file.
 
 Listing the fields which are present across the positions supplied. Then analysing what types of values are present in the enumerated fields, and how many of the positions supply a value for each type of field.
 
+Generates a CSV and a pandas datarfame as a converted export of the bin file.
+
 **GTFS_API_Request.py:**
 
-For one off queries to the BODS GTFS API, storing the response in a readable .csv file.
+For one off queries to the BODS GTFS API, storing the response in a readable .csv file and into a pandas dataframe.
+You can select to have the script run with a query parameter of  week ago or 1 hour ago or 1 minute ago, just comment out the params you do not want e.g. for one week ago:
+#    'startTimeAfter': get_unix_timestamp_one_hour_ago(),
+#   'startTimeAfter' = get_unix_timestamp_one_minute_ago()
+    'startTimeAfter': get_unix_timestamp_one_week_ago(),
+    'api_key': api_key
+
+
 
 # How to Run the Files
 

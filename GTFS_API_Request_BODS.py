@@ -24,9 +24,17 @@ def list_all_fields(message, prefix=''):
                 all_fields.add(field_name)
     return all_fields
 
+def get_unix_timestamp_one_minute_ago():
+    one_minute_ago = datetime.now() - timedelta(minutes=1)
+    return int(time.mktime(one_minute_ago.timetuple()))
 def get_unix_timestamp_one_hour_ago():
     one_hour_ago = datetime.now() - timedelta(hours=1)
     return int(time.mktime(one_hour_ago.timetuple()))
+
+def get_unix_timestamp_one_week_ago():
+    one_week_ago = datetime.now() - timedelta(days=7)
+    return int(time.mktime(one_week_ago.timetuple()))
+
 
 # Get API Key from Environment Variable
 api_key = os.environ.get('GTFS_API_KEY')
@@ -36,7 +44,9 @@ if not api_key:
 # API Request
 url = "https://data.bus-data.dft.gov.uk/api/v1/gtfsrtdatafeed/"
 params = {
-    'startTimeAfter': get_unix_timestamp_one_hour_ago(),
+#    'startTimeAfter': get_unix_timestamp_one_hour_ago(),
+#   'startTimeAfter' = get_unix_timestamp_one_minute_ago()
+    'startTimeAfter': get_unix_timestamp_one_week_ago(),
     'api_key': api_key
 }
 
@@ -60,25 +70,32 @@ if response.status_code == 200:
 
     for entity in feed.entity:
         if entity.HasField('vehicle'):
-            vehicle_fields = list_all_fields(entity.vehicle)
             vehicle_info = {}
-            for field in vehicle_fields:
-                field_parts = field.split('.')
-                if len(field_parts) > 1:
-                    sub_message = entity.vehicle
-                    for part in field_parts[:-1]:
-                        sub_message = getattr(sub_message, part, None)
-                        if sub_message is None:
-                            break
-                    if sub_message is not None:
-                        final_field = field_parts[-1]
-                        vehicle_info[field] = getattr(sub_message, final_field, None) if hasattr(sub_message,
-                                                                                                 final_field) else None
-                else:
-                    vehicle_info[field] = getattr(entity.vehicle, field, None)
+
+
+            # Function to recursively extract fields and their values
+            def extract_fields(message, prefix=''):
+                for field in message.DESCRIPTOR.fields:
+                    field_name = f"{prefix}{field.name}" if prefix else field.name
+                    # Check if field is a message and not repeated
+                    if field.type == field.TYPE_MESSAGE and not field.label == field.LABEL_REPEATED:
+                        sub_message = getattr(message, field.name)
+                        extract_fields(sub_message, prefix=field_name + '_')
+                    elif field.label == field.LABEL_REPEATED:
+                        # Handle repeated fields by joining their string representations
+                        repeated_values = getattr(message, field.name)
+                        vehicle_info[field_name] = ', '.join([str(v) for v in repeated_values])
+                    else:
+                        # Directly assign non-message and non-repeated field values
+                        vehicle_info[field_name] = getattr(message, field.name, None)
+
+
+            # Extract fields from the vehicle message
+            extract_fields(entity.vehicle)
+
             vehicles_data.append(vehicle_info)
 
-    # Pandas DataFrame
+    # Proceed with creating a DataFrame and saving to CSV as before
     df = pd.DataFrame(vehicles_data)
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -88,14 +105,6 @@ if response.status_code == 200:
     df.to_csv(csv_filename, index=False)
     print(f"Vehicle positions saved to '{csv_filename}'")
 
-#    # Save to JSON with timestamp in filename
-#    json_filename = f'vehicle_positions_{timestamp}.json'
-#    with open(json_filename, 'w') as json_file:
-#        json.dump(vehicles_data, json_file)
-#    print(f"Vehicle positions saved to '{json_filename}'")
-
-    # Optionally, save to Excel or other formats using pandas
-    # df.to_excel('vehicle_positions.xlsx', index=False)
 
 else:
     print("Failed to fetch data:", response.status_code)

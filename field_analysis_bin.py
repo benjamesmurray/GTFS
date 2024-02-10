@@ -1,6 +1,9 @@
 import gtfs_realtime_pb2
 import json
 import os
+import pandas as pd
+import os
+from datetime import datetime
 
 
 def list_all_fields(vehicle_positions):
@@ -173,3 +176,32 @@ with open("gtfs_analysis_report.html", "w") as file:
     file.write(html_content)
 
 print("Report generated: gtfs_analysis_report.html")
+
+vehicles_data = []
+for vehicle in vehicle_positions:
+    vehicle_info = {}
+    # Function to recursively extract fields and their values
+    def extract_fields(message, prefix=''):
+        for field in message.DESCRIPTOR.fields:
+            field_name = f"{prefix}{field.name}" if prefix else field.name
+            if field.type == field.TYPE_MESSAGE and not field.label == field.LABEL_REPEATED:
+                sub_message = getattr(message, field.name)
+                extract_fields(sub_message, prefix=field_name + '_')
+            elif field.label == field.LABEL_REPEATED:
+                # For simplicity, join repeated field values into a string
+                repeated_values = getattr(message, field.name)
+                vehicle_info[field_name] = ', '.join([str(v) for v in repeated_values])
+            else:
+                vehicle_info[field_name] = getattr(message, field.name, None)
+    # Extract fields from the vehicle
+    extract_fields(vehicle)
+    vehicles_data.append(vehicle_info)
+
+# Create DataFrame
+df = pd.DataFrame(vehicles_data)
+
+# Save to CSV
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+csv_filename = f'vehicle_positions_{timestamp}.csv'
+df.to_csv(csv_filename, index=False)
+print(f"Vehicle positions saved to '{csv_filename}'")
