@@ -37,9 +37,9 @@ Generates a CSV and a pandas datarfame as a converted export of the bin file.
 **GTFS_API_Request.py:**
 
 For one off queries to the BODS GTFS API, storing the response in a readable .csv file and into a pandas dataframe.
-You can select to have the script run with a query parameter of  week ago or 1 hour ago or 1 minute ago, just comment out the params you do not want e.g. for one week ago:
-#    'startTimeAfter': get_unix_timestamp_one_hour_ago(),
-#   'startTimeAfter' = get_unix_timestamp_one_minute_ago()
+You can select to have the script run with a query parameter of  week ago or 1 hour ago or 1 minute ago, just comment out the params you do not want:
+    'startTimeAfter': get_unix_timestamp_one_hour_ago(),
+    'startTimeAfter' = get_unix_timestamp_one_minute_ago()
     'startTimeAfter': get_unix_timestamp_one_week_ago(),
     'api_key': api_key
 
