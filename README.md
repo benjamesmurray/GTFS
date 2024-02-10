@@ -34,7 +34,7 @@ Listing the fields which are present across the positions supplied. Then analysi
 
 **GTFS_API_Request.py:**
 
-For one off queries to the BODS GTFS API, storing the response in a readable .txt file.
+For one off queries to the BODS GTFS API, storing the response in a readable .csv file.
 
 # How to Run the Files
 
