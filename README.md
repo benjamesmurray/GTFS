@@ -53,7 +53,7 @@ This repository contains Python files that depend on Protocol Buffers. Follow th
 
 - **Git**: Install Git to clone the repository. Download it from [git-scm.com](https://git-scm.com/).
 - **Python**: Required to run the files. Download from [python.org](https://www.python.org/).
-- **Protocol Buffers Compiler (protoc)**: Required to compile `.proto` files.
+- **Protocol Buffers Compiler (protoc)**: Required to compile `.proto` files. [developers.google.com](https://developers.google.com/transit/gtfs-realtime/gtfs-realtime-proto)
 
 # Steps
 
